@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "movie-voting-back-end", "movie-voting-back-end.csproj", "{DBAEEFDE-3973-4478-8882-7C049C7050A6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DBAEEFDE-3973-4478-8882-7C049C7050A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBAEEFDE-3973-4478-8882-7C049C7050A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBAEEFDE-3973-4478-8882-7C049C7050A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBAEEFDE-3973-4478-8882-7C049C7050A6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {42DDE1D5-9F1C-4942-B38E-2997D4F0D26D}
+	EndGlobalSection
+EndGlobal
