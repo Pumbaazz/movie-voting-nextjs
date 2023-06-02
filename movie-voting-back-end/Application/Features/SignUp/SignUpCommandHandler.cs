@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Web.Http;
 using WebAPI.Domain.Model;
 using WebAPI.Persistence;
 
@@ -26,17 +28,18 @@ namespace WebAPI.Application.Features.SignUp
         /// </summary>
         /// <param name="command">The command.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public async Task<IActionResult> Handle(SignUpCommand command, CancellationToken cancellationToken)
+        public Task<IActionResult> Handle(SignUpCommand command, CancellationToken cancellationToken)
         {
             var user = GetUser(command.Email);
             if (user != null)
             {
-                return Conflict();
+                throw new HttpResponseException(HttpStatusCode.Conflict);
             }
 
             var newUser = new User { Email = command.Email, Name = command.Name, Password = command.Password };
             SaveNewUser(newUser);
-            return StatusCode(StatusCodes.Status201Created);
+            // return StatusCode(StatusCodes.Status201Created);
+            return Task.FromResult<IActionResult>(Created("", newUser));
         }
 
         // Get user by email.

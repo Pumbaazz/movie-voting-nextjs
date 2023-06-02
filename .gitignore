@@ -484,4 +484,4 @@ MigrationBackup/
 .vscode
 
 # Custom files
-launchSettings.json
+# launchSettings.json

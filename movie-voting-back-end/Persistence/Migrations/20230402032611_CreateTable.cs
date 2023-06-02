@@ -21,10 +21,7 @@ namespace WebAPI.Migrations
                     Path = table.Column<string>(type: "text", nullable: false),
                     Likes = table.Column<int>(type: "integer", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Movies", x => x.MovieId);
-                });
+                constraints: table => table.PrimaryKey("PK_Movies", x => x.MovieId));
 
             migrationBuilder.CreateTable(
                 name: "Users",
@@ -36,10 +33,7 @@ namespace WebAPI.Migrations
                     Email = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Users", x => x.Id));
         }
 
         /// <inheritdoc />

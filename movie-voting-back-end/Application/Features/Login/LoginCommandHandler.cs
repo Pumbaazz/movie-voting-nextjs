@@ -37,15 +37,15 @@ namespace WebAPI.Application.Features.Login
         /// </summary>
         /// <param name="command">The command.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public async Task<IActionResult> Handle(LoginCommand command, CancellationToken cancellationToken)
+        public Task<IActionResult> Handle(LoginCommand command, CancellationToken cancellationToken)
         {
             var user = GetUser(command.Email, command.Password);
             if (user == null)
             {
-                return Unauthorized();
+                return Task.FromResult<IActionResult>(Unauthorized());
             }
 
-            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(CreateJwtToken()) });
+            return Task.FromResult<IActionResult>(Ok(new { token = new JwtSecurityTokenHandler().WriteToken(CreateJwtToken()) }));
 
             // Get user.
             User? GetUser(string userEmail, string userPassword)

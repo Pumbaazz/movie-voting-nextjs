@@ -4,7 +4,7 @@ using WebAPI.Domain.Model;
 
 namespace WebAPI.Mapper
 {
-    public class MovieMapper
+    public static class MovieMapper
     {
         /// <summary>
         /// The mapper for movies dto.

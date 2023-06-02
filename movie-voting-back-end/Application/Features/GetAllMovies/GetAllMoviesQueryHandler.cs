@@ -38,7 +38,7 @@ namespace WebAPI.Application.Features.GetAllMovies
             // Get all movies.
             IEnumerable<Movies> GetAllMovies()
             {
-                return MovieVoteDbContext.Movies.ToList();
+                return MovieVoteDbContext.Movies.OrderBy(x => x.MovieId).ToList();
             }
         }
     }

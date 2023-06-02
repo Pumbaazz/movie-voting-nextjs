@@ -25,10 +25,7 @@ namespace WebAPI.Application.Features.Reactions
         /// <param name="movieVoteDbContext">The movie vote db context.</param>
         public DislikeReactionCommandHandler(ApplicationDbContext movieVoteDbContext)
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                MovieMapper.CreateMap(cfg);
-            });
+            var config = new MapperConfiguration(MovieMapper.CreateMap);
 
             _mapper = config.CreateMapper();
             _movieVoteDbContext = movieVoteDbContext;
