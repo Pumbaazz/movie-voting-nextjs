@@ -16,8 +16,8 @@ builder.Services.AddControllers()
 #pragma warning restore CS0618 // Type or member is obsolete
 
 // Register DbContext
-//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseNpgsql(connectionString));
 
 builder.Services.AddCors(options =>
