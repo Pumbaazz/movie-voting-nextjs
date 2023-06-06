@@ -7,7 +7,7 @@ using WebAPI.Persistence;
 
 #nullable disable
 
-namespace WebAPI.Migrations
+namespace movievotingbackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -16,12 +16,12 @@ namespace WebAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.4")
+                .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("WebAPI.Model.Movies", b =>
+            modelBuilder.Entity("WebAPI.Domain.Model.Movies", b =>
                 {
                     b.Property<int>("MovieId")
                         .ValueGeneratedOnAdd()
@@ -42,10 +42,33 @@ namespace WebAPI.Migrations
 
                     b.HasKey("MovieId");
 
-                    b.ToTable("Movies");
+                    b.ToTable("Movies", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            MovieId = 1,
+                            Likes = 10,
+                            Path = "https://traditiononline.org/wp-content/uploads/2019/11/13-Best-Shawshank.jpg",
+                            Title = "The Shawshank Redemption"
+                        },
+                        new
+                        {
+                            MovieId = 2,
+                            Likes = 12,
+                            Path = "https://www.lab111.nl/wp-content/uploads/2022/01/TGF50_INTL_DIGITAL_PAYOFF_1_SHEET__NED.jpg",
+                            Title = "The Godfather"
+                        },
+                        new
+                        {
+                            MovieId = 3,
+                            Likes = 5,
+                            Path = "https://m.media-amazon.com/images/I/91KkWf50SoL._AC_SL1500_.jpg",
+                            Title = "The Dark Knight"
+                        });
                 });
 
-            modelBuilder.Entity("WebAPI.Model.User", b =>
+            modelBuilder.Entity("WebAPI.Domain.Model.Users", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -67,7 +90,16 @@ namespace WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "admin@gmail.com",
+                            Name = "John Smith",
+                            Password = "password"
+                        });
                 });
 #pragma warning restore 612, 618
         }

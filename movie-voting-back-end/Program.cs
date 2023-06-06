@@ -1,9 +1,9 @@
+using System.Reflection;
+using System.Text;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Reflection;
-using System.Text;
 using WebAPI.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,6 +65,7 @@ var app = builder.Build();
 //    app.UseSwaggerUI();
 //}
 
+// TODO: Comment out for not redirect to https
 app.UseHttpsRedirection();
 
 app.UseCors();

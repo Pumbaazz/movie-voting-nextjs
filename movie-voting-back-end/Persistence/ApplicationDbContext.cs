@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebAPI.Domain.Model;
+using WebAPI.Persistence.Configuration;
 
 namespace WebAPI.Persistence
 {
@@ -13,13 +14,17 @@ namespace WebAPI.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<Users>()
                 .HasKey(p => p.Id);
             modelBuilder.Entity<Movies>()
                 .HasKey(p => p.MovieId);
+
+            // Update master data
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new MovieConfiguration());
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Users> Users { get; set; }
         public DbSet<Movies> Movies { get; set; }
     }
 }

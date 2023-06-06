@@ -1,5 +1,6 @@
-version: '2'
+version: '3'
 services:
+  # Front end image
   frontend:
     build:
       context: movie-voting-front-end
@@ -9,7 +10,19 @@ services:
       - 3000:3000
     depends_on:
       - backend
-
+  # # Database image
+  # db:
+  #   image: postgres
+  #   restart: always
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_DB: Movie
+  #   volumes:
+  #     - ./pgdata:/var/lib/postgresql/data
+  #   ports:
+  #     - 5432:5432
+  # Backend image
   backend:
     build:
       context: movie-voting-back-end

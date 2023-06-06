@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAPI.Domain.Model
 {
-    public class User
+    public class Users
     {
         /// <summary>
         /// Gets or sets the user's ID.

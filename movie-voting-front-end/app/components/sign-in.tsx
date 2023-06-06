@@ -1,6 +1,6 @@
 // First sign in page.
-
-import Router from "next/dist/server/router";
+import "../../styles/globals.css";
+import React from "react";
 
 export default function SignIn() {
     return (
@@ -13,7 +13,7 @@ export default function SignIn() {
                 </label>
                 <input
                     type="text"
-                    className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                    className="border rounded border-slate-200 placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500"
                     placeholder="Email"
                 />
 
@@ -26,7 +26,7 @@ export default function SignIn() {
 
                 <input
                     type="password"
-                    className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                    className="border rounded border-slate-200 placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500"
                     placeholder="Password"
                 />
 

@@ -36,20 +36,20 @@ namespace WebAPI.Application.Features.SignUp
                 throw new HttpResponseException(HttpStatusCode.Conflict);
             }
 
-            var newUser = new User { Email = command.Email, Name = command.Name, Password = command.Password };
+            var newUser = new Users { Email = command.Email, Name = command.Name, Password = command.Password };
             SaveNewUser(newUser);
             // return StatusCode(StatusCodes.Status201Created);
             return Task.FromResult<IActionResult>(Created("", newUser));
         }
 
         // Get user by email.
-        User? GetUser(string email)
+        Users? GetUser(string email)
         {
             return _movieVoteDbContext.Users.FirstOrDefault(x => x.Email.Equals(email));
         }
 
         // Handle save new user.
-        void SaveNewUser(User newUser)
+        void SaveNewUser(Users newUser)
         {
             _movieVoteDbContext.Users.Add(newUser);
             _movieVoteDbContext.SaveChanges();

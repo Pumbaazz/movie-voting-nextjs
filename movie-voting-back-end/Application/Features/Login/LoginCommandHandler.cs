@@ -48,7 +48,7 @@ namespace WebAPI.Application.Features.Login
             return Task.FromResult<IActionResult>(Ok(new { token = new JwtSecurityTokenHandler().WriteToken(CreateJwtToken()) }));
 
             // Get user.
-            User? GetUser(string userEmail, string userPassword)
+            Users? GetUser(string userEmail, string userPassword)
             {
                 return _movieVoteDbContext.Users.FirstOrDefault(x => x.Email == userEmail && x.Password == userPassword);
             }
@@ -68,7 +68,7 @@ namespace WebAPI.Application.Features.Login
             }
 
             // Create claim body.
-            List<Claim> CreateClaim(User user)
+            List<Claim> CreateClaim(Users user)
             {
                 return new List<Claim>
                 {

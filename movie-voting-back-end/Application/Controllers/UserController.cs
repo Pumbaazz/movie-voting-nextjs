@@ -28,7 +28,7 @@ namespace WebAPI.Application.Controllers
         /// </summary>
         /// <returns>Data of user login successfully.</returns>
         [HttpPost]
-        [Route("login")]
+        [Route("sign-in")]
         public async Task<IActionResult> Login([FromBody] LoginCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);

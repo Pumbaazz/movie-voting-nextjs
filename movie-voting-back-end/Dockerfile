@@ -3,7 +3,6 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS BUILD
 WORKDIR /app
 
 ENV ASPNETCORE_URLS="http://+:5005"
-# EXPOSE 80
 
 COPY *.csproj ./
 RUN dotnet restore
@@ -13,13 +12,12 @@ RUN dotnet build -c Release -o /app/build
 # Install the Entity Framework Core tools
 RUN dotnet tool install --global dotnet-ef
 ENV PATH="${PATH}:/root/.dotnet/tools"
-# Set the default environment variables for the container
-ENV ASPNETCORE_ENVIRONMENT=Development \
-    ConnectionStrings__DefaultConnection="Host=localhost;Database=Movie;Username=postgres;Password=postgres;"
-RUN dotnet ef database update
 
-# Publish the project
-# RUN dotnet publish -c Release -o out
+# Set the default environment variables for the container
+# ENV ASPNETCORE_ENVIRONMENT=Development \
+#     ConnectionStrings__DefaultConnection="Host=localhost;Database=Movie;Username=postgres;Password=postgres;"
+# RUN dotnet ef database update
+# RUN dotnet ef migrations update --project movie-voting-back-end --startup-project movie-voting-back-end --context ApplicationDbContext --verbose
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS RUNTIME
 WORKDIR /app
