@@ -66,7 +66,7 @@ var app = builder.Build();
 //}
 
 // TODO: Comment out for not redirect to https
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseCors();
 

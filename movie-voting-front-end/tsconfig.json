@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "pages/api/like/[movieId].tsx", "pages/api/dislike/[movieId].tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "pages/api/like/[movieId].ts", "pages/api/dislike/[movieId].ts"],
   "exclude": ["node_modules"]
 }
