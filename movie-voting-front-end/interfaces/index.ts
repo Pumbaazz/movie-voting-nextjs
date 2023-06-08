@@ -3,11 +3,15 @@ export type User = {
     name: string;
     email: string;
     password: string;
-}
+};
+
+export type MoviesProps = {
+    movies: Movie[];
+};
 
 export type Movie = {
-    id:number;
-    title:string;
-    path:string;
-    likes:number;
-}
+    movieId: number;
+    title: string;
+    path: string;
+    likes: number;
+};

@@ -9,8 +9,8 @@ COPY . .
 FROM node:18
 WORKDIR /app
 COPY . .
-COPY --from=deps /app/node_modules ./node_modules
-RUN npm run build && npm install --production --ignore-scripts --prefer-offline
+COPY --from=deps /app ./
+RUN npm run build
 
 EXPOSE 3000
 CMD ["npm", "run", "start"]

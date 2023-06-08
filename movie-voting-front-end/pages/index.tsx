@@ -1,6 +1,6 @@
 // First sign in page.
 
-import SignIn from "../app/components/sign-in";
+import SignIn from "./api/signin";
 
 export default function Home() {
     return <SignIn />;

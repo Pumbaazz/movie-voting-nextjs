@@ -1,6 +1,14 @@
-import "../styles/globals.css";
+import { useRouter } from "next/router";
+import "./_app";
+import React from "react";
 
 export default function SignUp() {
+    const router = useRouter();
+
+    const handleSignUp = () => {
+        router.push("/");
+    };
+
     return (
         <div className="flex min-h-screen  flex-col items-center justify-center py-2">
             <form className="flex flex-col space-y-2">
@@ -30,6 +38,13 @@ export default function SignUp() {
                 >
                     Login
                 </button>
+
+                <a
+                    className="text-center cursor-pointer"
+                    onClick={() => handleSignUp()}
+                >
+                    Already have an account? Login here.
+                </a>
             </form>
         </div>
     );
