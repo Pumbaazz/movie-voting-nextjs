@@ -4,7 +4,7 @@ import createProxyMiddleware from 'http-proxy-middleware';
 const app = express();
 
 // const API_URL = "http://localhost:5005";
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 // Proxy API requests to your ASP.NET Web API backend
 app.use(

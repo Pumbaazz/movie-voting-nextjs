@@ -32,15 +32,10 @@ export default function SignIn() {
 
         var json = JSON.stringify({ email: email, password: password });
         var requestOptions = {
-            method: "POST", 
+            method: "POST",
             headers: { "Content-Type": "application/json" },
             body: json,
         };
-
-        // log data
-        // console.log(json);
-        console.log(requestOptions);
-        // log data
 
         const response = await fetch("/api/sign-in", requestOptions);
         if (response.ok) {

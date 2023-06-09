@@ -14,6 +14,7 @@ export default function SignUp() {
             <form className="flex flex-col space-y-2">
                 <label htmlFor="name">Name</label>
                 <input
+                    name="name"
                     type="text"
                     className="border rounded border-slate-200 placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500"
                     placeholder="Name"
@@ -21,6 +22,7 @@ export default function SignUp() {
 
                 <label htmlFor="email">Email</label>
                 <input
+                    name="email"
                     type="text"
                     className="border rounded border-slate-200 placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500"
                     placeholder="Email"
@@ -28,6 +30,7 @@ export default function SignUp() {
 
                 <label htmlFor="password">Password</label>
                 <input
+                    name="password"
                     type="password"
                     className="border rounded border-slate-200 placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500"
                     placeholder="Password"

@@ -2,7 +2,7 @@
 FROM node:18 as deps
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN npm i
 COPY . .
 
 # Rebuild the source code only when needed
@@ -13,4 +13,4 @@ COPY --from=deps /app ./
 RUN npm run build
 
 EXPOSE 3000
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "dev"]

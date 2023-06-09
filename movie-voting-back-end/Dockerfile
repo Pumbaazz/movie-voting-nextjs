@@ -28,4 +28,4 @@ EXPOSE 5005
 # CMD ["dotnet", "ef", "database", "update"]
 
 # Entry point for executing the application
-ENTRYPOINT ["dotnet", "movie-voting-back-end.dll", "--server.urls", "http://+:5005"]
+ENTRYPOINT ["dotnet", "movie-voting-back-end.dll"]
