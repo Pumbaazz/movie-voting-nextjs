@@ -2,7 +2,6 @@
 import { useRouter } from "next/router";
 import "../_app";
 import React from "react";
-import { Elsie_Swash_Caps } from "next/font/google";
 
 export default function SignIn() {
     const router = useRouter();
@@ -33,7 +32,7 @@ export default function SignIn() {
 
         var json = JSON.stringify({ email: email, password: password });
         var requestOptions = {
-            method: "POST",
+            method: "POST", 
             headers: { "Content-Type": "application/json" },
             body: json,
         };
