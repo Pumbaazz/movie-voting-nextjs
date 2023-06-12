@@ -1,6 +1,8 @@
 import React from "react";
+import { useRouter } from "next/router";
 import "./_app";
 import { Movie, MoviesProps } from "@/interfaces";
+import Navbar from "./components/navbar";
 
 export default function Dashboard({ movies }: MoviesProps) {
     /**
@@ -27,7 +29,7 @@ export default function Dashboard({ movies }: MoviesProps) {
 
     return (
         <>
-            <h1>Dashboard</h1>
+            <Navbar />
             <div className="grid">
                 {movies.map((movie: Movie) => (
                     <div
