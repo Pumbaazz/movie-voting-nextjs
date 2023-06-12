@@ -10,7 +10,10 @@ FROM node:18
 WORKDIR /app
 COPY . .
 COPY --from=deps /app ./
+
 RUN npm run build
 
 EXPOSE 3000
+
+# RUN rm -rf .env
 CMD ["npm", "run", "dev"]

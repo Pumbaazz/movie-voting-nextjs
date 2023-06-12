@@ -1,20 +1,34 @@
-version: '3'
+version: "3.8"
+
+networks:
+    transcendence:
+        driver: bridge
+
 services:
-  # Front end image
-  frontend:
-    build:
-      context: movie-voting-front-end
-      dockerfile: Dockerfile
-    image: nguyntunphng/frontend:latest
-    ports:
-      - 3000:3000
-    depends_on:
-      - backend
-  # Backend image
-  backend:
-    build:
-      context: movie-voting-back-end
-      dockerfile: Dockerfile
-    image: nguyntunphng/backend:latest
-    ports:
-      - 5005:5005
+    # Front end image
+    frontend:
+        build:
+            context: movie-voting-front-end
+            dockerfile: Dockerfile
+        image: nguyntunphng/frontend:latest
+        restart: on-failure
+        ports:
+            - 3000:3000
+        depends_on:
+            - backend
+        networks:
+            - transcendence
+        external_links:
+            - backend
+
+    # Backend image
+    backend:
+        build:
+            context: movie-voting-back-end
+            dockerfile: Dockerfile
+        image: nguyntunphng/backend:latest
+        restart: on-failure
+        ports:
+            - "5005:5005"
+        networks:
+            - transcendence
