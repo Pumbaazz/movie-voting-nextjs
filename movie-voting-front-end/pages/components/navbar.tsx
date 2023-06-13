@@ -1,21 +1,25 @@
 import { useRouter } from "next/router";
 import "../_app";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import jwtDecode from "jwt-decode";
+import { User } from "@/interfaces";
 
-/**
- * Renders a navigation bar with a logout button that removes the jwtToken from
- * localStorage and redirects to the homepage when clicked.
- *
- * @return {void}
- */
 export default function Navbar() {
     const router = useRouter();
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-    /**
-     * Removes the jwtToken from localStorage and redirects to homepage.
-     *
-     * @return {void}
-     */
+    useEffect(() => {
+        const token = localStorage.getItem("jwtToken");
+        if (token) {
+            let decoded: User = jwtDecode(token) as {
+                id: 0;
+                Name: string;
+                Email: string;
+            };
+            setCurrentUser(decoded);
+        }
+    }, []);
+
     const logout = () => {
         localStorage.removeItem("jwtToken");
         router.push("/");
@@ -24,9 +28,12 @@ export default function Navbar() {
     return (
         <>
             <nav className="flex items-center justify-between p-8">
-                <h1>Dashboard</h1>
+                <h1 className="text-2xl font-medium">
+                    Welcome{" "}
+                    <a href="#">{currentUser?.Name ?? "Unknown User"}</a>
+                </h1>
                 <button
-                    className="btn border bg-green-400"
+                    className="btn border bg-green-400 rounded-full px-2 py-2 text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 drop-shadow-md"
                     onClick={() => logout()}
                 >
                     Log out

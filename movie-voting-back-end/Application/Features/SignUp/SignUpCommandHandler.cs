@@ -1,7 +1,7 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
+﻿using System.Net;
 using System.Web.Http;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using WebAPI.Domain.Model;
 using WebAPI.Persistence;
 
@@ -33,12 +33,12 @@ namespace WebAPI.Application.Features.SignUp
             var user = GetUser(command.Email);
             if (user != null)
             {
-                throw new HttpResponseException(HttpStatusCode.Conflict);
+                return Task.FromResult<IActionResult>(Conflict());
             }
 
             var newUser = new Users { Email = command.Email, Name = command.Name, Password = command.Password };
             SaveNewUser(newUser);
-            // return StatusCode(StatusCodes.Status201Created);
+            //return StatusCode(StatusCodes.Status201Created);
             return Task.FromResult<IActionResult>(Created("", newUser));
         }
 

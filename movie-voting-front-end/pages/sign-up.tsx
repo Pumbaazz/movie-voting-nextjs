@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import "./_app";
 import React from "react";
+import Swal from "sweetalert2";
+import { fileURLToPath } from "url";
 
 export default function SignUp() {
     const router = useRouter();
@@ -20,31 +22,44 @@ export default function SignUp() {
             body: JSON.stringify({ name, email, password }),
         };
 
+        let statusText = "";
+
         try {
             const response = await fetch("/api/sign-up", requestOptions);
-
             if (response.ok) {
-                console.log("User created successfully.");
+                statusText = "User created successfully.";
+                // Swal.fire({
+                //     icon: "error",
+                //     title: "Oops...",
+                //     text: `${statusText}`,
+                // });
+
                 // const data = await response.json();
                 // localStorage.setItem("jwtToken", data.token);
                 // router.push("/dashboard");
             } else {
                 switch (response.status) {
                     case 409:
-                        console.log("User already exists. Please try again.");
+                        statusText = "User already exists. Please try again.";
                         break;
                     case 401:
-                        console.log("Invalid input. Please try again.");
+                        statusText = "Invalid input. Please try again.";
                         break;
                     default:
-                        console.log(
-                            "An error occurred. Please try again later."
-                        );
+                        statusText =
+                            "An error occurred. Please try again later.";
                         break;
                 }
             }
-        } catch (error) {
-            console.error(`Error: ${error}`);
+        } catch (error: any) {
+            // console.error(`Error: ${error}`);
+            statusText = error.message;
+        } finally {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `${statusText}`,
+            });
         }
     };
 

@@ -1,5 +1,4 @@
 import React from "react";
-import { useRouter } from "next/router";
 import "./_app";
 import { Movie, MoviesProps } from "@/interfaces";
 import Navbar from "./components/navbar";
@@ -34,13 +33,17 @@ export default function Dashboard({ movies }: MoviesProps) {
                 {movies.map((movie: Movie) => (
                     <div
                         key={movie.movieId}
-                        className="grid grid-cols-3 gap-4 m-4 border border-solid border-slate-200"
+                        className="grid grid-cols-2 m-4 border border-solid border-slate-200"
                     >
-                        <div className="col-auto col-start-1 col-end-2">
-                            <img src={movie.path} />
+                        <div className="col">
+                            <img
+                                src={movie.path}
+                                width={"50%"}
+                                alt="banner image"
+                            />
                         </div>
 
-                        <div className="col-span-2">
+                        <div className="col">
                             <h1 className="font-medium text-slate-900 text-3xl">
                                 {movie.title}
                             </h1>
@@ -52,9 +55,8 @@ export default function Dashboard({ movies }: MoviesProps) {
 
                             <div className="pt-2">
                                 <button
-                                    className="btn bg-indigo-500 rounded-md px-2 py-2 text-sm font-medium text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 "
+                                    className="btn bg-indigo-500 rounded-md px-2 py-2 text-sm font-medium text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 drop-shadow-lg"
                                     onClick={() => {
-                                        console.log(movie);
                                         handleLikeMovie(movie);
                                     }}
                                 >

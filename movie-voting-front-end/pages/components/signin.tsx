@@ -2,6 +2,7 @@
 import { useRouter } from "next/router";
 import "../_app";
 import React from "react";
+import Swal from "sweetalert2";
 
 export default function SignIn() {
     const router = useRouter();
@@ -44,7 +45,11 @@ export default function SignIn() {
                 localStorage.setItem("jwtToken", data.token);
                 router.push("/dashboard");
             } else {
-                console.log(response);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `${response.statusText}`,
+                });
             }
         } catch (error) {
             console.error(`Error: ${error}`);
