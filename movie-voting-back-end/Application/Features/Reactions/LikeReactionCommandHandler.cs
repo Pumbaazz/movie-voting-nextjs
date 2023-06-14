@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using WebAPI.Application.Behaviors;
+using WebAPI.Application.Exceptions;
 using WebAPI.Application.Mapper;
 using WebAPI.Domain.DTO;
 using WebAPI.Domain.Model;
@@ -7,7 +10,7 @@ using WebAPI.Persistence;
 
 namespace WebAPI.Application.Features.Reactions
 {
-    public class LikeReactionCommandHandler : IRequestHandler<LikeReactionCommand, MoviesDto>
+    public class LikeReactionCommandHandler : ControllerBase, IRequestHandler<LikeReactionCommand, MoviesDto>
     {
         /// <summary>
         /// Application db context.
@@ -39,22 +42,54 @@ namespace WebAPI.Application.Features.Reactions
         /// <exception cref="BadHttpRequestException"></exception>
         public async Task<MoviesDto> Handle(LikeReactionCommand command, CancellationToken cancellationToken)
         {
-            var movie = GetMovie(command.MovieId) ?? throw new BadHttpRequestException("An error occurred. Please try again later.");
-            LikeMovieExecutive(movie);
+            var movie = GetMovie() ?? throw new NotFoundException();
+            var user = GetUser() ?? throw new NotFoundException();
+            LikeMovieExecutive();
             SaveChangeLike();
             var result = _mapper.Map<Movies, MoviesDto>(movie);
             return await Task.FromResult(result);
 
             // Get movie with movie id.
-            Movies? GetMovie(int movieId)
+            Movies? GetMovie()
             {
-                return _movieVoteDbContext.Movies.FirstOrDefault(x => x.MovieId == movieId);
+                return _movieVoteDbContext.Movies.FirstOrDefault(x => x.Id.Equals(command.MovieId));
+            }
+
+            // Get user by token id.
+            Users? GetUser()
+            {
+                return _movieVoteDbContext.Users.FirstOrDefault(x => x.Id.Equals(command.UserId));
             }
 
             // Count up like number.
-            void LikeMovieExecutive(Movies movie)
+            IActionResult LikeMovieExecutive()
             {
+                var userReaction = _movieVoteDbContext.Reactions.FirstOrDefault(x => x.MovieId.Equals(command.MovieId) && x.UserId.Equals(command.UserId));
+                // Already like.
+                if (userReaction != null)
+                {
+                    if (userReaction.ReactionType.Equals(ReactionType.Like))
+                    {
+                        throw new BadHttpRequestException("Already liked!");
+                    }
+                    else
+                    {
+                        userReaction.ReactionType = ReactionType.Like;
+                    }
+                }
+                else
+                {
+                    var reaction = new Domain.Model.Reactions
+                    {
+                        Id = Guid.NewGuid(),
+                        MovieId = command.MovieId,
+                        UserId = command.UserId,
+                        ReactionType = ReactionType.Like,
+                    };
+                    _movieVoteDbContext.Reactions.Add(reaction);
+                }
                 movie.Likes++;
+                return Ok(movie);
             }
 
             // Save change like number.

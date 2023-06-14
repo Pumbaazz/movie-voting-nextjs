@@ -8,9 +8,7 @@ namespace WebAPI.Domain.Model
         /// <summary>
         /// Gets or sets the movie ID.
         /// </summary>
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int MovieId { get; set; }
+        public Guid Id { get; set; } = Guid.Empty;
 
         /// <summary>
         /// Gets or sets the movie title.

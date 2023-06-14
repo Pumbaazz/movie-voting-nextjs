@@ -1,14 +1,14 @@
 ﻿using FluentValidation;
-using WebAPI.Application.Features.Login;
+using WebAPI.Application.Features.Reactions;
 
 namespace WebAPI.Application.Validations
 {
-    public class LoginValidation : AbstractValidator<LoginCommand>
+    public class LikeReactionValidation : AbstractValidator<LikeReactionCommand>
     {
-        public LoginValidation()
+        public LikeReactionValidation()
         {
-            RuleFor(command => command.Email).NotEmpty().NotNull();
-            RuleFor(command => command.Password).NotEmpty().NotNull();
+            RuleFor(command => command.MovieId).NotEmpty().NotNull();
+            RuleFor(command => command.UserId).NotEmpty().NotNull();
         }
     }
 }

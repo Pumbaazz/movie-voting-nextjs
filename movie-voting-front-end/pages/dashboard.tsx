@@ -2,6 +2,8 @@ import React from "react";
 import "./_app";
 import { Movie, MoviesProps } from "@/interfaces";
 import Navbar from "./components/navbar";
+import jwtDecode from "jwt-decode";
+import Swal from "sweetalert2";
 
 export default function Dashboard({ movies }: MoviesProps) {
     /**
@@ -10,16 +12,71 @@ export default function Dashboard({ movies }: MoviesProps) {
      *
      * @param {Movie} movie - the movie to be liked
      */
-    const handleLikeMovie = async (movie: Movie) => {
+    const handleDislikeMovie = async (movie: Movie) => {
         try {
-            const response = await fetch(`/api/like/${movie.movieId}`, {
+            const token = localStorage.getItem("jwtToken");
+            if (!token) return;
+            const user = jwtDecode(token) as {
+                id: string;
+                name: string;
+                email: string;
+            };
+
+            const movieId = movie.id;
+            const userId = user.id;
+
+            const requestOptions: RequestInit = {
                 method: "PATCH",
-            });
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ movieId, userId }),
+            };
+
+            const response = await fetch(`/api/dislike`, requestOptions);
             if (response.ok) {
-                // Reload the page to reflect the updated likes count
                 window.location.reload();
             } else {
-                throw new Error("Failed to update likes");
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                });
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const handleLikeMovie = async (movie: Movie) => {
+        try {
+            const token = localStorage.getItem("jwtToken");
+            if (!token) return;
+            const user = jwtDecode(token) as {
+                id: string;
+                name: string;
+                email: string;
+            };
+
+            const movieId = movie.id;
+            const userId = user.id;
+
+            const requestOptions: RequestInit = {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ movieId, userId }),
+            };
+
+            const response = await fetch(`/api/like`, requestOptions);
+            // const response = await fetch(`/api/like`, {
+            //     method: "PATCH",
+            //     body: JSON.stringify({ movie.movieId }),
+            // });
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                });
             }
         } catch (error) {
             console.error(error);
@@ -32,7 +89,7 @@ export default function Dashboard({ movies }: MoviesProps) {
             <div className="grid">
                 {movies.map((movie: Movie) => (
                     <div
-                        key={movie.movieId}
+                        key={movie.id}
                         className="grid grid-cols-2 m-4 border border-solid border-slate-200"
                     >
                         <div className="col">
@@ -53,15 +110,27 @@ export default function Dashboard({ movies }: MoviesProps) {
                                 </span>
                             </div>
 
-                            <div className="pt-2">
-                                <button
-                                    className="btn bg-indigo-500 rounded-md px-2 py-2 text-sm font-medium text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 drop-shadow-lg"
-                                    onClick={() => {
-                                        handleLikeMovie(movie);
-                                    }}
-                                >
-                                    Like
-                                </button>
+                            <div className="flex">
+                                <div className="pt-2 px-2">
+                                    <button
+                                        className="btn bg-indigo-500 rounded-md px-2 py-2 text-sm font-medium text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 drop-shadow-lg"
+                                        onClick={() => {
+                                            handleLikeMovie(movie);
+                                        }}
+                                    >
+                                        Like
+                                    </button>
+                                </div>
+                                <div className="pt-2">
+                                    <button
+                                        className="btn bg-red-500 rounded-md px-2 py-2 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 drop-shadow-lg"
+                                        onClick={() => {
+                                            handleDislikeMovie(movie);
+                                        }}
+                                    >
+                                        Dislike
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

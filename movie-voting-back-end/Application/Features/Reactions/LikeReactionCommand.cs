@@ -8,6 +8,11 @@ namespace WebAPI.Application.Features.Reactions
         /// <summary>
         /// Gets or sets the movie id.
         /// </summary>
-        public int MovieId { get; set; }
+        public Guid MovieId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user id.
+        /// </summary>
+        public Guid UserId { get; set; }
     }
 }

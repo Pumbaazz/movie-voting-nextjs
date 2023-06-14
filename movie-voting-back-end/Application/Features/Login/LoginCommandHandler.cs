@@ -1,9 +1,9 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using WebAPI.Domain.Model;
 using WebAPI.Persistence;
 
@@ -62,7 +62,7 @@ namespace WebAPI.Application.Features.Login
                         issuer: "JwtIssuer",
                         audience: "JwtAudience",
                         claims: claims,
-                        expires: DateTime.UtcNow.AddMinutes(30),
+                        expires: DateTime.UtcNow.AddMinutes(10),
                         signingCredentials: credential
                     );
             }
@@ -72,9 +72,9 @@ namespace WebAPI.Application.Features.Login
             {
                 return new List<Claim>
                 {
-                    new Claim(nameof(user.Id), user.Id.ToString()),
-                    new Claim(nameof(user.Name), user.Name),
-                    new Claim(nameof(user.Email), user.Email),
+                    new Claim(nameof(user.Id).ToLower(), user.Id.ToString()),
+                    new Claim(nameof(user.Name).ToLower(), user.Name),
+                    new Claim(nameof(user.Email).ToLower(), user.Email),
                 };
             }
 

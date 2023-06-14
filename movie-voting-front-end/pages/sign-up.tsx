@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import "./_app";
 import React from "react";
 import Swal from "sweetalert2";
-import { fileURLToPath } from "url";
 
 export default function SignUp() {
     const router = useRouter();
@@ -28,15 +27,6 @@ export default function SignUp() {
             const response = await fetch("/api/sign-up", requestOptions);
             if (response.ok) {
                 statusText = "User created successfully.";
-                // Swal.fire({
-                //     icon: "error",
-                //     title: "Oops...",
-                //     text: `${statusText}`,
-                // });
-
-                // const data = await response.json();
-                // localStorage.setItem("jwtToken", data.token);
-                // router.push("/dashboard");
             } else {
                 switch (response.status) {
                     case 409:

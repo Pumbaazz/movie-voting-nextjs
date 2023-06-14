@@ -30,29 +30,35 @@ namespace WebAPI.Application.Features.SignUp
         /// <param name="cancellationToken">The cancellation token.</param>
         public Task<IActionResult> Handle(SignUpCommand command, CancellationToken cancellationToken)
         {
-            var user = GetUser(command.Email);
+            var user = GetUser();
             if (user != null)
             {
                 return Task.FromResult<IActionResult>(Conflict());
             }
 
-            var newUser = new Users { Email = command.Email, Name = command.Name, Password = command.Password };
-            SaveNewUser(newUser);
-            //return StatusCode(StatusCodes.Status201Created);
+            var newUser = new Users
+            {
+                Id = Guid.NewGuid(),
+                Email = command.Email,
+                Name = command.Name,
+                Password = command.Password
+            };
+
+            SaveNewUser();
             return Task.FromResult<IActionResult>(Created("", newUser));
-        }
 
-        // Get user by email.
-        Users? GetUser(string email)
-        {
-            return _movieVoteDbContext.Users.FirstOrDefault(x => x.Email.Equals(email));
-        }
+            // Get user by email.
+            Users? GetUser()
+            {
+                return _movieVoteDbContext.Users.FirstOrDefault(x => x.Email.Equals(command.Email));
+            }
 
-        // Handle save new user.
-        void SaveNewUser(Users newUser)
-        {
-            _movieVoteDbContext.Users.Add(newUser);
-            _movieVoteDbContext.SaveChanges();
+            // Handle save new user.
+            void SaveNewUser()
+            {
+                _movieVoteDbContext.Users.Add(newUser);
+                _movieVoteDbContext.SaveChanges();
+            }
         }
     }
 }
