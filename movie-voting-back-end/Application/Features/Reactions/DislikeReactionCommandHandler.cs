@@ -75,6 +75,7 @@ namespace WebAPI.Application.Features.Reactions
                     else
                     {
                         userReaction.ReactionType = ReactionType.Dislike;
+                        movie.Likes--;
                     }
                 }
                 else
