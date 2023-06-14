@@ -19,7 +19,7 @@ create table public."Reactions"(
 	"Id" uuid not null,
 	"UserId" uuid,
 	"MovieId" uuid,
-	"ReactionType" text,
+	"ReactionType" int4,
 	constraint "PK_Reactions" primary key ("Id"),
 	foreign key("UserId") references public."Users"("Id"),
 	foreign key("MovieId") references public."Movies"("Id")
@@ -35,3 +35,27 @@ INSERT INTO public."Movies" ("Id", "Title","Path","Likes") VALUES
 
 --INSERT INTO public."Reactions" ("Id", "UserId", "MovieId", "ReactionType") VALUES 
 --	('619d5471-0b54-420b-801c-5ba932530491', 'de69fff8-bf0e-439e-8fc1-e7dc5f333bd0', '43d6b6ee-d54d-47b6-b0fe-d78493e063b3', 'Like');
+
+-- Function update when action
+CREATE OR REPLACE FUNCTION update_movie_likes()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE "Movies"
+    SET "Likes" = (
+        SELECT COUNT(*) FROM public."Reactions"
+        WHERE public."Reactions"."MovieId" = NEW."MovieId" AND public."Reactions"."ReactionType" = 0
+    ) - (
+        SELECT COUNT(*) FROM public."Reactions"
+        WHERE public."Reactions"."MovieId" = NEW."MovieId" AND public."Reactions"."ReactionType" = 1
+    )
+    WHERE "Id" = NEW."MovieId";
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- grant trigger
+create or replace TRIGGER update_movie_like
+AFTER INSERT OR UPDATE ON "Reactions"
+FOR EACH row
+execute function update_movie_likes();

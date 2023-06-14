@@ -46,7 +46,7 @@ namespace WebAPI.Application.Controllers
         /// <returns>Movie modified.</returns>
         [HttpPatch]
         [Route("like")]
-        public async Task<MoviesDto> UpdateReactionLike([FromBody] LikeReactionCommand command)
+        public async Task<IActionResult> UpdateReactionLike([FromBody] LikeReactionCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return result;
@@ -59,7 +59,7 @@ namespace WebAPI.Application.Controllers
         /// <returns>Movie modified.</returns>
         [HttpPatch]
         [Route("dislike")]
-        public async Task<MoviesDto> UpdateReactionDislike([FromBody] DislikeReactionCommand command)
+        public async Task<IActionResult> UpdateReactionDislike([FromBody] DislikeReactionCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return result;

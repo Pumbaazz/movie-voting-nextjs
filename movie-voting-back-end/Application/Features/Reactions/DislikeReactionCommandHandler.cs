@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 using WebAPI.Application.Behaviors;
 using WebAPI.Application.Exceptions;
 using WebAPI.Application.Mapper;
@@ -10,7 +11,7 @@ using WebAPI.Persistence;
 
 namespace WebAPI.Application.Features.Reactions
 {
-    public class DislikeReactionCommandHandler : ControllerBase, IRequestHandler<DislikeReactionCommand, MoviesDto>
+    public class DislikeReactionCommandHandler : ControllerBase, IRequestHandler<DislikeReactionCommand, IActionResult>
     {
         /// <summary>
         /// Application db context.
@@ -40,16 +41,41 @@ namespace WebAPI.Application.Features.Reactions
         /// <param name="command">The command.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <exception cref="BadHttpRequestException"></exception>
-        public async Task<MoviesDto> Handle(DislikeReactionCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(DislikeReactionCommand command, CancellationToken cancellationToken)
         {
             var movie = GetMovie() ?? throw new NotFoundException();
             var user = GetUser() ?? throw new NotFoundException();
-            DislikeMovieExecutive();
+
+            // Decrease like number.
+            var userReaction = _movieVoteDbContext.Reactions.FirstOrDefault(x => x.MovieId.Equals(command.MovieId) && x.UserId.Equals(command.UserId));
+            if (userReaction != null)
+            {
+                if (userReaction.ReactionType == (int)ReactionType.Dislike)
+                {
+                    return await Task.FromResult<IActionResult>(Conflict());
+                }
+                else
+                {
+                    userReaction.ReactionType = (int)ReactionType.Dislike;
+                }
+            }
+            else
+            {
+                var reaction = new Domain.Model.Reactions
+                {
+                    Id = Guid.NewGuid(),
+                    MovieId = command.MovieId,
+                    UserId = command.UserId,
+                    ReactionType = (int)ReactionType.Dislike
+                };
+                _movieVoteDbContext.Reactions.Add(reaction);
+            }
+
+            // Save changes.
             SaveChangeDislike();
             var result = _mapper.Map<Movies, MoviesDto>(movie);
-            return await Task.FromResult(result);
+            return Ok(result);
 
-            // Get movie with movie id.
             // Get movie with movie id.
             Movies? GetMovie()
             {
@@ -60,36 +86,6 @@ namespace WebAPI.Application.Features.Reactions
             Users? GetUser()
             {
                 return _movieVoteDbContext.Users.FirstOrDefault(x => x.Id.Equals(command.UserId));
-            }
-
-            // Subtract like number.
-            IActionResult DislikeMovieExecutive()
-            {
-                var userReaction = _movieVoteDbContext.Reactions.FirstOrDefault(x => x.MovieId.Equals(command.MovieId) && x.UserId.Equals(command.UserId));
-                if (userReaction != null)
-                {
-                    if (userReaction.ReactionType.Equals(ReactionType.Dislike))
-                    {
-                        throw new BadHttpRequestException("Already disliked!");
-                    }
-                    else
-                    {
-                        userReaction.ReactionType = ReactionType.Dislike;
-                    }
-                }
-                else
-                {
-                    var reaction = new Domain.Model.Reactions
-                    {
-                        Id = Guid.NewGuid(),
-                        MovieId = command.MovieId,
-                        UserId = command.UserId,
-                        ReactionType = ReactionType.Dislike
-                    };
-                    _movieVoteDbContext.Reactions.Add(reaction);
-                }
-                movie.Likes--;
-                return Ok(movie);
             }
 
             // Save change like number.

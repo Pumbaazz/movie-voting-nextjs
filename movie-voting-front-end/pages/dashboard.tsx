@@ -35,10 +35,19 @@ export default function Dashboard({ movies }: MoviesProps) {
             if (response.ok) {
                 window.location.reload();
             } else {
+                let statusText = "";
+                switch (response.status) {
+                    case 409:
+                        statusText = "Already disliked!";
+                        break;
+                    default:
+                        statusText = "An error occurred. Please try again.";
+                        break;
+                }
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Something went wrong!",
+                    text: `${statusText}`,
                 });
             }
         } catch (error) {
@@ -65,17 +74,22 @@ export default function Dashboard({ movies }: MoviesProps) {
             };
 
             const response = await fetch(`/api/like`, requestOptions);
-            // const response = await fetch(`/api/like`, {
-            //     method: "PATCH",
-            //     body: JSON.stringify({ movie.movieId }),
-            // });
             if (response.ok) {
                 window.location.reload();
             } else {
+                let statusText = "";
+                switch (response.status) {
+                    case 409:
+                        statusText = "Already liked!";
+                        break;
+                    default:
+                        statusText = "An error occurred. Please try again.";
+                        break;
+                }
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Something went wrong!",
+                    text: `${statusText}`,
                 });
             }
         } catch (error) {
