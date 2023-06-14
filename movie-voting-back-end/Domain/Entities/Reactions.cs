@@ -22,6 +22,6 @@ namespace WebAPI.Domain.Model
         /// <summary>
         /// Gets or sets the user react to movie.
         /// </summary>
-        public ReactionType ReactionType { get; set; }
+        public int ReactionType { get; set; }
     }
 }

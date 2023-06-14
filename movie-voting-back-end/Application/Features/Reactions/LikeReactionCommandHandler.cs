@@ -68,13 +68,13 @@ namespace WebAPI.Application.Features.Reactions
                 // Already like.
                 if (userReaction != null)
                 {
-                    if (userReaction.ReactionType.Equals(ReactionType.Like))
+                    if (userReaction.ReactionType == (int)ReactionType.Like)
                     {
                         throw new BadHttpRequestException("Already liked!");
                     }
                     else
                     {
-                        userReaction.ReactionType = ReactionType.Like;
+                        userReaction.ReactionType = (int)ReactionType.Like;
                         movie.Likes++;
                     }
                 }
@@ -85,7 +85,7 @@ namespace WebAPI.Application.Features.Reactions
                         Id = Guid.NewGuid(),
                         MovieId = command.MovieId,
                         UserId = command.UserId,
-                        ReactionType = ReactionType.Like,
+                        ReactionType = (int)ReactionType.Like,
                     };
                     _movieVoteDbContext.Reactions.Add(reaction);
                 }

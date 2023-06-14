@@ -46,10 +46,10 @@ export default function SignUp() {
             statusText = error.message;
         } finally {
             Swal.fire({
-                icon: "error",
-                title: "Oops...",
+                icon: "success",
                 text: `${statusText}`,
             });
+            router.push("/");
         }
     };
 

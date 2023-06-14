@@ -19,7 +19,7 @@ create table public."Reactions"(
 	"Id" uuid not null,
 	"UserId" uuid,
 	"MovieId" uuid,
-	"ReactionType" text,
+	"ReactionType" int4,
 	constraint "PK_Reactions" primary key ("Id"),
 	foreign key("UserId") references public."Users"("Id"),
 	foreign key("MovieId") references public."Movies"("Id")

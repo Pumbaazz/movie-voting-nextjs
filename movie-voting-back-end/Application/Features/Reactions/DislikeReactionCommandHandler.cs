@@ -68,13 +68,13 @@ namespace WebAPI.Application.Features.Reactions
                 var userReaction = _movieVoteDbContext.Reactions.FirstOrDefault(x => x.MovieId.Equals(command.MovieId) && x.UserId.Equals(command.UserId));
                 if (userReaction != null)
                 {
-                    if (userReaction.ReactionType.Equals(ReactionType.Dislike))
+                    if (userReaction.ReactionType == (int)ReactionType.Dislike)
                     {
                         throw new BadHttpRequestException("Already disliked!");
                     }
                     else
                     {
-                        userReaction.ReactionType = ReactionType.Dislike;
+                        userReaction.ReactionType = (int)ReactionType.Dislike;
                         movie.Likes--;
                     }
                 }
@@ -85,7 +85,7 @@ namespace WebAPI.Application.Features.Reactions
                         Id = Guid.NewGuid(),
                         MovieId = command.MovieId,
                         UserId = command.UserId,
-                        ReactionType = ReactionType.Dislike
+                        ReactionType = (int)ReactionType.Dislike
                     };
                     _movieVoteDbContext.Reactions.Add(reaction);
                 }
