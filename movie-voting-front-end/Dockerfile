@@ -10,8 +10,10 @@ FROM node:18
 WORKDIR /app
 COPY . .
 COPY --from=deps /app ./
-RUN npm --verbose install
+
 RUN npm run build
 
 EXPOSE 3000
-CMD ["npm", "run", "start"]
+
+# RUN rm -rf .env
+CMD ["npm", "run", "dev"]

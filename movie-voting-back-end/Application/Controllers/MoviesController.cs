@@ -45,10 +45,10 @@ namespace WebAPI.Application.Controllers
         /// <param name="movieId">The movie ID.</param>
         /// <returns>Movie modified.</returns>
         [HttpPatch]
-        [Route("like/{movieId}")]
-        public async Task<MoviesDto> UpdateReactionLike(int movieId)
+        [Route("like")]
+        public async Task<MoviesDto> UpdateReactionLike([FromBody] LikeReactionCommand command)
         {
-            var result = await _mediator.Send(new LikeReactionCommand { MovieId = movieId }).ConfigureAwait(false);
+            var result = await _mediator.Send(command).ConfigureAwait(false);
             return result;
         }
 
@@ -58,10 +58,10 @@ namespace WebAPI.Application.Controllers
         /// <param name="movieId">The movie ID.</param>
         /// <returns>Movie modified.</returns>
         [HttpPatch]
-        [Route("dislike/{movieId}")]
-        public async Task<MoviesDto> UpdateReactionDislike(int movieId)
+        [Route("dislike")]
+        public async Task<MoviesDto> UpdateReactionDislike([FromBody] DislikeReactionCommand command)
         {
-            var result = await _mediator.Send(new DislikeReactionCommand { MovieId = movieId }).ConfigureAwait(false);
+            var result = await _mediator.Send(command).ConfigureAwait(false);
             return result;
         }
     }

@@ -5,7 +5,7 @@
         /// <summary>
         /// Gets or sets the movie ID.
         /// </summary>
-        public int MovieId { get; set; }
+        public Guid MovieId { get; set; } = Guid.Empty;
 
         /// <summary>
         /// Gets or sets the movie title.

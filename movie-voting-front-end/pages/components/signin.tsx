@@ -2,6 +2,7 @@
 import { useRouter } from "next/router";
 import "../_app";
 import React from "react";
+import Swal from "sweetalert2";
 
 export default function SignIn() {
     const router = useRouter();
@@ -11,7 +12,7 @@ export default function SignIn() {
      *
      * This function does not return anything.
      */
-    const navigateSignUp = () => {
+    const goToSignUp = () => {
         router.push("/sign-up");
     };
 
@@ -30,25 +31,28 @@ export default function SignIn() {
         const email = formData.get("email") as string;
         const password = formData.get("password") as string;
 
-        var json = JSON.stringify({ email: email, password: password });
-        var requestOptions = {
-            method: "POST", 
+        const requestOptions = {
+            method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: json,
+            body: JSON.stringify({ email, password }),
         };
 
-        // log data
-        // console.log(json);
-        console.log(requestOptions);
-        // log data
+        try {
+            const response = await fetch("/api/sign-in", requestOptions);
 
-        const response = await fetch("/api/sign-in", requestOptions);
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem("jwtToken", data.token);
-            router.push("/dashboard");
-        } else {
-            console.log(response);
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem("jwtToken", data.token);
+                router.push("/dashboard");
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `${response.statusText}`,
+                });
+            }
+        } catch (error) {
+            console.error(`Error: ${error}`);
         }
     }
 
@@ -90,7 +94,7 @@ export default function SignIn() {
                 <a
                     className="text-center cursor-pointer"
                     onClick={() => {
-                        navigateSignUp();
+                        goToSignUp();
                     }}
                 >
                     Don&apos;t have an account? Register here.

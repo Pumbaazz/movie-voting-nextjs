@@ -2,7 +2,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS BUILD
 WORKDIR /app
 
-ENV ASPNETCORE_URLS="http://+:5005"
+# ENV ASPNETCORE_URLS=http://127.0.0.1:5005
 
 COPY *.csproj ./
 RUN dotnet restore
@@ -10,8 +10,8 @@ COPY . .
 RUN dotnet build -c Release -o /app/build
 
 # Install the Entity Framework Core tools
-RUN dotnet tool install --global dotnet-ef
-ENV PATH="${PATH}:/root/.dotnet/tools"
+# RUN dotnet tool install --global dotnet-ef
+# ENV PATH="${PATH}:/root/.dotnet/tools"
 
 # Set the default environment variables for the container
 # ENV ASPNETCORE_ENVIRONMENT=Development \
@@ -28,4 +28,4 @@ EXPOSE 5005
 # CMD ["dotnet", "ef", "database", "update"]
 
 # Entry point for executing the application
-ENTRYPOINT ["dotnet", "movie-voting-back-end.dll", "--server.urls", "http://+:5005"]
+ENTRYPOINT ["dotnet", "movie-voting-back-end.dll"]
