@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
 using WebAPI.Application.Behaviors;
 using WebAPI.Application.Exceptions;
 using WebAPI.Application.Mapper;
