@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using WebAPI.Domain.DTO;
 
 namespace WebAPI.Application.Features.Reactions
 {

@@ -1,6 +1,4 @@
-﻿using WebAPI.Application.Behaviors;
-
-namespace WebAPI.Domain.Model
+﻿namespace WebAPI.Domain.Model
 {
     public class Reactions
     {

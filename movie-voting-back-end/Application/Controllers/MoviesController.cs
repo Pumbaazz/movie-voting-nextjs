@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Application.Features.GetAllMovies;
 using WebAPI.Application.Features.Reactions;
-using WebAPI.Domain.DTO;
 using WebAPI.Domain.Model;
 
 namespace WebAPI.Application.Controllers
@@ -19,9 +18,7 @@ namespace WebAPI.Application.Controllers
         /// <summary>
         /// The constructor.
         /// </summary>
-        /// <param name="movieVoteDbContext">The movie db context.</param>
         /// <param name="mediator">The mediator.</param>
-        /// <param name="mapper">The mapper.</param>
         public MoviesController(IMediator mediator)
         {
             _mediator = mediator;
@@ -42,7 +39,7 @@ namespace WebAPI.Application.Controllers
         /// <summary>
         /// Update like number when action is like.
         /// </summary>
-        /// <param name="movieId">The movie ID.</param>
+        /// <param name="command">The request command.</param>
         /// <returns>Movie modified.</returns>
         [HttpPatch]
         [Route("like")]
@@ -55,7 +52,7 @@ namespace WebAPI.Application.Controllers
         /// <summary>
         /// Update like number when action is dislike.
         /// </summary>
-        /// <param name="movieId">The movie ID.</param>
+        /// <param name="command">The request command.</param>
         /// <returns>Movie modified.</returns>
         [HttpPatch]
         [Route("dislike")]
