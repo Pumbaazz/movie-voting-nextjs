@@ -54,6 +54,10 @@ WORKDIR /app
 COPY --from=build-frontend /app/movie-voting-front-end ./movie-voting-front-end
 EXPOSE 3000
 
+# Install Node.js 18 in the runtime stage
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get install -y nodejs
+
 # Copy the backend build output from build-backend stage to runtime stage
 COPY --from=build-backend /app/movie-voting-back-end/out ./movie-voting-back-end
 EXPOSE 5005
