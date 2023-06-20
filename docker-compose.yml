@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+    # Movie voting combine
+    movie-voting-combine:
+        build:
+            dockerfile: Dockerfile
+        image: nguyntunphng/movie-voting-combine:latest
+        restart: on-failure
+        ports:
+            - 3000:3000
+            - 5005:5005
