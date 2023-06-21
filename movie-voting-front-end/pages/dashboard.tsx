@@ -28,7 +28,10 @@ export default function Dashboard({ movies }: MoviesProps) {
 
             const requestOptions: RequestInit = {
                 method: "PATCH",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Cache-Control": "max-age=10, stale-while-revalidate=20",
+                },
                 body: JSON.stringify({ movieId, userId }),
             };
 
@@ -70,7 +73,10 @@ export default function Dashboard({ movies }: MoviesProps) {
 
             const requestOptions: RequestInit = {
                 method: "PATCH",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Cache-Control": "max-age=10, stale-while-revalidate=20",
+                },
                 body: JSON.stringify({ movieId, userId }),
             };
 
@@ -165,7 +171,7 @@ export const getServerSideProps: GetServerSideProps<{ movies: any }> = async ({
 }) => {
     res.setHeader(
         "Cache-Control",
-        "public, s-maxage=31536000,stale-while-revalidate=59"
+        "public, s-maxage=10,stale-while-revalidate=20"
     );
 
     const endpointUrl = `${process.env.REACT_APP_BASE_CLIENT}/api/get-movies`;
