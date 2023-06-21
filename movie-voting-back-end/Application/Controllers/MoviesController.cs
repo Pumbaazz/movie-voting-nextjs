@@ -30,6 +30,7 @@ namespace WebAPI.Application.Controllers
         /// <returns>List all movie.</returns>
         [HttpGet]
         [Route("get-movies")]
+        [ResponseCache(Duration = 20)]
         public async Task<IEnumerable<Movies>> GetAllMovies()
         {
             var result = await _mediator.Send(new GetAllMoviesQuery()).ConfigureAwait(false);
