@@ -37,7 +37,7 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddEndpointsApiExplorer();
 
 // Caching.
-builder.Services.AddResponseCaching();
+//builder.Services.AddResponseCaching();
 
 // Remove these for swagger
 //builder.Services.AddSwaggerGen();
@@ -74,22 +74,22 @@ var app = builder.Build();
 app.UseCors();
 
 // Caching
-app.Use(async (context, next) =>
-{
-    context.Response.GetTypedHeaders().CacheControl =
-        new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
-        {
-            Public = true,
-            MaxAge = TimeSpan.FromSeconds(10),
-            NoStore = true,
-        };
-    context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
-        new string[] { "Cache-Control" };
+//app.Use(async (context, next) =>
+//{
+//    context.Response.GetTypedHeaders().CacheControl =
+//        new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+//        {
+//            Public = true,
+//            MaxAge = TimeSpan.FromSeconds(10),
+//            NoStore = true,
+//        };
+//    context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
+//        new string[] { "Cache-Control" };
 
-    await next();
-});
+//    await next();
+//});
 
-app.UseResponseCaching();
+//app.UseResponseCaching();
 
 app.UseAuthorization();
 

@@ -8,7 +8,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-const cacheDuration = 5; // Cache duration in seconds
+const cacheDuration = 10; // Cache duration in seconds
 const cache = new NodeCache({ stdTTL: cacheDuration });
 
 // Proxy server options
