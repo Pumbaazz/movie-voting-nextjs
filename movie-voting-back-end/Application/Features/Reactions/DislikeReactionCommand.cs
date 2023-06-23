@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using WebAPI.Domain.DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Application.Features.Reactions
 {
-    public class DislikeReactionCommand : IRequest<MoviesDto>
+    public class DislikeReactionCommand : IRequest<IActionResult>
     {
         /// <summary>
         /// Gets or sets the movie id.

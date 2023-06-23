@@ -4,6 +4,7 @@ import { Movie, MoviesProps } from "@/interfaces";
 import Navbar from "./components/navbar";
 import jwtDecode from "jwt-decode";
 import Swal from "sweetalert2";
+import { GetServerSideProps } from "next";
 
 export default function Dashboard({ movies }: MoviesProps) {
     /**
@@ -27,7 +28,10 @@ export default function Dashboard({ movies }: MoviesProps) {
 
             const requestOptions: RequestInit = {
                 method: "PATCH",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    // "Cache-Control": "max-age=10, stale-while-revalidate=20",
+                },
                 body: JSON.stringify({ movieId, userId }),
             };
 
@@ -35,10 +39,19 @@ export default function Dashboard({ movies }: MoviesProps) {
             if (response.ok) {
                 window.location.reload();
             } else {
+                let statusText = "";
+                switch (response.status) {
+                    case 409:
+                        statusText = "Already disliked!";
+                        break;
+                    default:
+                        statusText = "An error occurred. Please try again.";
+                        break;
+                }
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Something went wrong!",
+                    text: `${statusText}`,
                 });
             }
         } catch (error) {
@@ -60,22 +73,30 @@ export default function Dashboard({ movies }: MoviesProps) {
 
             const requestOptions: RequestInit = {
                 method: "PATCH",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    // "Cache-Control": "max-age=10, stale-while-revalidate=20",
+                },
                 body: JSON.stringify({ movieId, userId }),
             };
 
             const response = await fetch(`/api/like`, requestOptions);
-            // const response = await fetch(`/api/like`, {
-            //     method: "PATCH",
-            //     body: JSON.stringify({ movie.movieId }),
-            // });
             if (response.ok) {
                 window.location.reload();
             } else {
+                let statusText = "";
+                switch (response.status) {
+                    case 409:
+                        statusText = "Already liked!";
+                        break;
+                    default:
+                        statusText = "An error occurred. Please try again.";
+                        break;
+                }
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Something went wrong!",
+                    text: `${statusText}`,
                 });
             }
         } catch (error) {
@@ -145,9 +166,16 @@ export default function Dashboard({ movies }: MoviesProps) {
  *
  * @return {Object} An object with a `props` key containing the `movies` list.
  */
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps<{ movies: any }> = async ({
+    res,
+}) => {
+    // res.setHeader(
+    //     "Cache-Control",
+    //     "public, s-maxage=10,stale-while-revalidate=20"
+    // );
+
     const endpointUrl = `${process.env.REACT_APP_BASE_CLIENT}/api/get-movies`;
-    const res = await fetch(endpointUrl);
-    const movies = await res.json();
+    const response = await fetch(endpointUrl);
+    const movies = await response.json();
     return { props: { movies } };
-}
+};

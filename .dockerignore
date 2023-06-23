@@ -36,27 +36,26 @@ app/*.tar.gz
 *.tar.gz
 themes/*/build
 themes/*/node_modules
-themes/*/app
-*/*/*/node_modules
-files/*
-web/files/*
-*/*/*/src-img
-*/*/src-img
-*/*.log
-Vagrantfile
-pimple.json
+# themes/*/app
+# */*/*/node_modules
+# files/*
+# web/files/*
+# */*/*/src-img
+# */*/src-img
+# */*.log
+# Vagrantfile
+# pimple.json
 
-!vendor
-!app/gen-src/GeneratedNodeSources/.gitignore
-!app/gen-src/Proxies/.gitignore
-!docker/php-nginx-alpine/crontab.txt
-!docker/php-nginx-alpine/before_launch.sh
-!themes/BaseTheme/static
-!themes/BaseTheme/Resources/views/partials/*
-!themes/BaseTheme/Resources/views/base.html.twig
-!web/themes/*
+# !vendor
+# !app/gen-src/GeneratedNodeSources/.gitignore
+# !app/gen-src/Proxies/.gitignore
+# !docker/php-nginx-alpine/crontab.txt
+# !docker/php-nginx-alpine/before_launch.sh
+# !themes/BaseTheme/static
+# !themes/BaseTheme/Resources/views/partials/*
+# !themes/BaseTheme/Resources/views/base.html.twig
+# !web/themes/*
 */Clean-code-summary/*
 */Week2/*
 **/Movie - public.png
 package-lock.json
-**/.env

@@ -17,7 +17,7 @@ namespace WebAPI.Application.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="movieVoteDbContext">MovieVoteDbContext.</param>
+        /// <param name="mediator">The mediator</param>
         public UserController(IMediator mediator)
         {
             _mediator = mediator;
@@ -38,7 +38,7 @@ namespace WebAPI.Application.Controllers
         /// <summary>
         /// Create new user.
         /// </summary>
-        /// <param name="model">New user data payload.</param>
+        /// <param name="command">The request command.</param>
         /// <returns>Status code.</returns>
         [HttpPost]
         [Route("sign-up")]

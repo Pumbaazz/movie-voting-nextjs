@@ -9,7 +9,7 @@ namespace WebAPI.Application.Features.GetAllMovies
         /// <summary>
         /// Application db context.
         /// </summary>
-        public ApplicationDbContext MovieVoteDbContext;
+        public ApplicationDbContext _movieVoteDbContext;
 
         /// <summary>
         /// The constructor.
@@ -17,7 +17,7 @@ namespace WebAPI.Application.Features.GetAllMovies
         /// <param name="movieVoteDbContext">The movie vote db context.</param>
         public GetAllMoviesQueryHandler(ApplicationDbContext movieVoteDbContext)
         {
-            MovieVoteDbContext = movieVoteDbContext;
+            _movieVoteDbContext = movieVoteDbContext;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace WebAPI.Application.Features.GetAllMovies
             // Get all movies.
             IEnumerable<Movies> GetAllMovies()
             {
-                return MovieVoteDbContext.Movies.OrderBy(x => x.Id).ToList();
+                return _movieVoteDbContext.Movies.OrderBy(x => x.Id).ToList();
             }
         }
     }

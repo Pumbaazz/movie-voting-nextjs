@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using WebAPI.Domain.DTO;
 
 namespace WebAPI.Application.Features.Reactions
 {
-    public class LikeReactionCommand : IRequest<MoviesDto>
+    public class LikeReactionCommand : IRequest<IActionResult>
     {
         /// <summary>
         /// Gets or sets the movie id.
