@@ -1,34 +1,11 @@
 version: "3.8"
-
-networks:
-    transcendence:
-        driver: bridge
-
 services:
-    # Front end image
-    frontend:
+    # Movie voting combine
+    movie-voting-combine:
         build:
-            context: movie-voting-front-end
             dockerfile: Dockerfile
-        image: nguyntunphng/frontend:latest
+        image: nguyntunphng/movie-voting-combine:latest
         restart: on-failure
         ports:
             - 3000:3000
-        depends_on:
-            - backend
-        networks:
-            - transcendence
-        external_links:
-            - backend
-
-    # Backend image
-    backend:
-        build:
-            context: movie-voting-back-end
-            dockerfile: Dockerfile
-        image: nguyntunphng/backend:latest
-        restart: on-failure
-        ports:
-            - "5005:5005"
-        networks:
-            - transcendence
+            - 5005:5005

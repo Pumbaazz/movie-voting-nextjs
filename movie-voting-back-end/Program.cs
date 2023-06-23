@@ -36,6 +36,9 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
+// Caching.
+//builder.Services.AddResponseCaching();
+
 // Remove these for swagger
 //builder.Services.AddSwaggerGen();
 
@@ -69,6 +72,24 @@ var app = builder.Build();
 //app.UseHttpsRedirection();
 
 app.UseCors();
+
+// Caching
+//app.Use(async (context, next) =>
+//{
+//    context.Response.GetTypedHeaders().CacheControl =
+//        new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+//        {
+//            Public = true,
+//            MaxAge = TimeSpan.FromSeconds(10),
+//            NoStore = true,
+//        };
+//    context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
+//        new string[] { "Cache-Control" };
+
+//    await next();
+//});
+
+//app.UseResponseCaching();
 
 app.UseAuthorization();
 
