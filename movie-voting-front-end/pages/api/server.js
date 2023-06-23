@@ -8,8 +8,8 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-const cache = new NodeCache();
-const cacheDuration = 60; // Cache duration in seconds
+const cacheDuration = 5; // Cache duration in seconds
+const cache = new NodeCache({ stdTTL: cacheDuration });
 
 // Proxy server options
 const proxyOptions = {
@@ -17,7 +17,7 @@ const proxyOptions = {
     changeOrigin: true,
     onProxyRes: (proxyRes, req, res) => {
         if (proxyRes.statusCode === 200) {
-            const cacheKey = req.url;
+            const cacheKey = req.originalUrl || req.url;
             const responseData = [];
 
             proxyRes.on('data', (chunk) => {
@@ -26,16 +26,15 @@ const proxyOptions = {
 
             proxyRes.on('end', () => {
                 const responseBody = Buffer.concat(responseData).toString('utf8');
-                cache.set(cacheKey, responseBody, cacheDuration);
+                cache.set(cacheKey, responseBody);
             });
-            console.log(cache.stats);
+            console.log("🚀 ~ file: server.js:34 ~ cache.stats:", cache.stats)
         }
     },
 };
 
 // Create the proxy middleware
 const proxyMiddleware = createProxyMiddleware(proxyOptions);
-console.log(cache.stats);
 
 // Start Next.js app
 app.prepare().then(() => {
@@ -44,7 +43,8 @@ app.prepare().then(() => {
     // Apply the proxy middleware for API requests
     server.use('/api', (req, res, next) => {
         // Check if the response is cached
-        const cachedResponse = cache.get(req.url);
+        const cacheKey = req.originalUrl || req.url;
+        const cachedResponse = cache.get(cacheKey);
         if (cachedResponse) {
             res.send(cachedResponse);
             return;
